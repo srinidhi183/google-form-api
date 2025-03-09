@@ -37,7 +37,12 @@ const personalitySchema = new mongoose.Schema({
 });
 const PersonalityResponse = mongoose.model('PersonalityResponse', personalitySchema);
 
-// Unified API Endpoint to Store Google Form Responses
+// ✅ Default Route (For Debugging)
+app.get('/', (req, res) => {
+    res.send("API is running...");
+});
+
+// ✅ API Endpoint to Store Google Form Responses
 app.post('/submit', async (req, res) => {
     try {
         if ('name' in req.body && 'email' in req.body && 'score' in req.body) {
@@ -58,6 +63,7 @@ app.post('/submit', async (req, res) => {
             return res.status(400).json({ error: 'Invalid request format' });
         }
     } catch (error) {
+        console.error("Error saving response:", error);
         res.status(500).json({ error: 'Error saving response' });
     }
 });
