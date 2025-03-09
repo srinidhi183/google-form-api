@@ -25,8 +25,10 @@ const responseSchema = new mongoose.Schema({
 });
 const Response = mongoose.model('Response', responseSchema);
 
-// Define Schema & Model for Personality Google Form
+// Define Schema & Model for Personality Google Form (Now Includes Name & Email)
 const personalitySchema = new mongoose.Schema({
+    name: String,
+    email: String,
     extraversion: String,
     agreeableness: String,
     emotionalStability: String,
@@ -45,10 +47,10 @@ app.post('/submit', async (req, res) => {
             await newResponse.save();
             return res.status(201).json({ message: 'Response saved successfully for Form 1!' });
         } 
-        else if ('extraversion' in req.body && 'agreeableness' in req.body && 'emotionalStability' in req.body && 'conscientiousness' in req.body) {
-            // Handling Personality Form
-            const { extraversion, agreeableness, emotionalStability, conscientiousness } = req.body;
-            const newResponse = new PersonalityResponse({ extraversion, agreeableness, emotionalStability, conscientiousness });
+        else if ('name' in req.body && 'email' in req.body && 'extraversion' in req.body && 'agreeableness' in req.body) {
+            // Handling Personality Form (Now Includes Name & Email)
+            const { name, email, extraversion, agreeableness, emotionalStability, conscientiousness } = req.body;
+            const newResponse = new PersonalityResponse({ name, email, extraversion, agreeableness, emotionalStability, conscientiousness });
             await newResponse.save();
             return res.status(201).json({ message: 'Personality response saved successfully!' });
         } 
